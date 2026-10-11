@@ -1,0 +1,4 @@
+$ ./hadoop-daemons.sh start
+95560 DataNode
+95498 NameNode
+Web UI: http://localhost:9870

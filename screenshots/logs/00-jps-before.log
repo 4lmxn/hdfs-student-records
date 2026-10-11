@@ -1,0 +1,2 @@
+$ ./hadoop-daemons.sh status
+HDFS not running

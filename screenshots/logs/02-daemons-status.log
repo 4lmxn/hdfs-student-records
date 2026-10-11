@@ -1,0 +1,3 @@
+$ ./hadoop-daemons.sh status
+95560 DataNode
+95498 NameNode

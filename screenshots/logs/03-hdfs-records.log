@@ -1,0 +1,96 @@
+$ ./hdfs-records.sh
+==> 1. Create the HDFS directory
+2026-10-11 22:50:26,971 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+==> 2. Copy the local records file into HDFS (overwrite if it exists)
+2026-10-11 22:50:27,570 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+==> 3. List the directory
+2026-10-11 22:50:28,777 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Found 3 items
+drwxr-xr-x   - almaaaann supergroup          0 2026-09-09 20:08 /user/almaaaann/students/avg_cgpa_out
+-rw-r--r--   1 almaaaann supergroup        681 2026-10-11 22:50 /user/almaaaann/students/students.csv
+drwxr-xr-x   - almaaaann supergroup          0 2026-09-09 20:08 /user/almaaaann/students/topper_out
+==> 4. Print the full record list from HDFS
+2026-10-11 22:50:29,384 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+usn,name,branch,semester,cgpa,city
+1KS21CS001,Aarav Nair,CSE,6,8.74,Bangalore
+1KS21CS002,Diya Sharma,CSE,6,9.12,Mysore
+1KS21CS003,Rohan Gupta,CSE,6,7.65,Hubli
+1KS21CS004,Ananya Rao,CSE,6,8.03,Bangalore
+1KS21CS005,Karthik Reddy,CSE,6,6.98,Mangalore
+1KS21EC010,Meera Iyer,ECE,6,8.41,Bangalore
+1KS21EC011,Vivaan Shetty,ECE,6,7.22,Udupi
+1KS21EC012,Isha Kulkarni,ECE,6,9.35,Belgaum
+1KS21ME021,Aditya Joshi,MECH,6,6.55,Davangere
+1KS21ME022,Sneha Pillai,MECH,6,7.88,Bangalore
+1KS21CV031,Arjun Menon,CIVIL,6,7.10,Tumkur
+1KS21CV032,Nisha Hegde,CIVIL,6,8.19,Karwar
+1KS21IS041,Rahul Bhat,ISE,6,8.66,Bangalore
+1KS21IS042,Pooja Naik,ISE,6,9.01,Shimoga
+1KS21IS043,Sahil Kamath,ISE,6,7.44,Mysore
+==> 5. Row count (minus the header)
+2026-10-11 22:50:30,479 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+students = 15
+==> 6. Filter: CSE students only
+2026-10-11 22:50:31,303 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+usn,name,branch,semester,cgpa,city
+1KS21CS001,Aarav Nair,CSE,6,8.74,Bangalore
+1KS21CS002,Diya Sharma,CSE,6,9.12,Mysore
+1KS21CS003,Rohan Gupta,CSE,6,7.65,Hubli
+1KS21CS004,Ananya Rao,CSE,6,8.03,Bangalore
+1KS21CS005,Karthik Reddy,CSE,6,6.98,Mangalore
+==> 7. Filter: CGPA >= 8.5 (toppers)
+2026-10-11 22:50:31,960 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+usn,name,branch,semester,cgpa,city
+1KS21CS001,Aarav Nair,CSE,6,8.74,Bangalore
+1KS21CS002,Diya Sharma,CSE,6,9.12,Mysore
+1KS21EC012,Isha Kulkarni,ECE,6,9.35,Belgaum
+1KS21IS041,Rahul Bhat,ISE,6,8.66,Bangalore
+1KS21IS042,Pooja Naik,ISE,6,9.01,Shimoga
+==> 8. Block / replication report for the file
+2026-10-11 22:50:32,613 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Connecting to namenode via http://localhost:9870/fsck?ugi=almaaaann&files=1&blocks=1&path=%2Fuser%2Falmaaaann%2Fstudents%2Fstudents.csv
+FSCK started by almaaaann (auth:SIMPLE) from /127.0.0.1 for path /user/almaaaann/students/students.csv at Sun Oct 11 22:50:33 IST 2026
+
+/user/almaaaann/students/students.csv 681 bytes, replicated: replication=1, 1 block(s):  OK
+0. BP-345465743-127.0.0.1-1788932714822:blk_1073741840_1019 len=681 Live_repl=1
+
+
+Status: HEALTHY
+ Number of data-nodes:	1
+ Number of racks:		1
+ Total dirs:			0
+ Total symlinks:		0
+
+Replicated Blocks:
+ Total size:	681 B
+ Total files:	1
+ Total blocks (validated):	1 (avg. block size 681 B)
+ Minimally replicated blocks:	1 (100.0 %)
+ Over-replicated blocks:	0 (0.0 %)
+ Under-replicated blocks:	0 (0.0 %)
+ Mis-replicated blocks:		0 (0.0 %)
+ Default replication factor:	1
+ Average block replication:	1.0
+ Missing blocks:		0
+ Corrupt blocks:		0
+ Missing replicas:		0 (0.0 %)
+ Blocks queued for replication:	0
+
+Erasure Coded Block Groups:
+ Total size:	0 B
+ Total files:	0
+ Total block groups (validated):	0
+ Minimally erasure-coded block groups:	0
+ Over-erasure-coded block groups:	0
+ Under-erasure-coded block groups:	0
+ Unsatisfactory placement block groups:	0
+ Average block group size:	0.0
+ Missing block groups:		0
+ Corrupt block groups:		0
+ Missing internal blocks:	0
+ Blocks queued for replication:	0
+FSCK ended at Sun Oct 11 22:50:33 IST 2026 in 6 milliseconds
+
+
+The filesystem under path '/user/almaaaann/students/students.csv' is HEALTHY
+Done. Web UI: http://localhost:9870  (Utilities -> Browse the file system)
