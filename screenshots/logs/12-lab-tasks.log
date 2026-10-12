@@ -1,0 +1,107 @@
+==> 1. Create a directory
+$ hdfs dfs -mkdir -p /user/almaaaann/student_info
+2026-10-12 08:25:53,808 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+
+$ hdfs dfs -ls /user/almaaaann
+2026-10-12 08:25:54,486 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Found 2 items
+drwxr-xr-x   - almaaaann supergroup          0 2026-10-12 08:25 /user/almaaaann/student_info
+drwxr-xr-x   - almaaaann supergroup          0 2026-10-11 22:50 /user/almaaaann/students
+
+==> 2. Upload students info
+$ hdfs dfs -put -f students.csv /user/almaaaann/student_info/
+2026-10-12 08:25:55,096 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+
+$ hdfs dfs -ls /user/almaaaann/student_info
+2026-10-12 08:25:56,332 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Found 1 items
+-rw-r--r--   1 almaaaann supergroup        681 2026-10-12 08:25 /user/almaaaann/student_info/students.csv
+
+==> 3. List and display its contents
+$ hdfs dfs -ls -h /user/almaaaann/student_info
+2026-10-12 08:25:56,954 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Found 1 items
+-rw-r--r--   1 almaaaann supergroup        681 2026-10-12 08:25 /user/almaaaann/student_info/students.csv
+
+$ hdfs dfs -cat /user/almaaaann/student_info/students.csv
+2026-10-12 08:25:57,553 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+usn,name,branch,semester,cgpa,city
+1KS21CS001,Aarav Nair,CSE,6,8.74,Bangalore
+1KS21CS002,Diya Sharma,CSE,6,9.12,Mysore
+1KS21CS003,Rohan Gupta,CSE,6,7.65,Hubli
+1KS21CS004,Ananya Rao,CSE,6,8.03,Bangalore
+1KS21CS005,Karthik Reddy,CSE,6,6.98,Mangalore
+1KS21EC010,Meera Iyer,ECE,6,8.41,Bangalore
+1KS21EC011,Vivaan Shetty,ECE,6,7.22,Udupi
+1KS21EC012,Isha Kulkarni,ECE,6,9.35,Belgaum
+1KS21ME021,Aditya Joshi,MECH,6,6.55,Davangere
+1KS21ME022,Sneha Pillai,MECH,6,7.88,Bangalore
+1KS21CV031,Arjun Menon,CIVIL,6,7.10,Tumkur
+1KS21CV032,Nisha Hegde,CIVIL,6,8.19,Karwar
+1KS21IS041,Rahul Bhat,ISE,6,8.66,Bangalore
+1KS21IS042,Pooja Naik,ISE,6,9.01,Shimoga
+1KS21IS043,Sahil Kamath,ISE,6,7.44,Mysore
+
+==> 4. Perform basic sorting/filtering
+$ hdfs dfs -cat /user/almaaaann/student_info/students.csv | tail -n +2 | sort -t, -k5 -nr        # sort by CGPA, highest first
+2026-10-12 08:25:58,213 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+1KS21EC012,Isha Kulkarni,ECE,6,9.35,Belgaum
+1KS21CS002,Diya Sharma,CSE,6,9.12,Mysore
+1KS21IS042,Pooja Naik,ISE,6,9.01,Shimoga
+1KS21CS001,Aarav Nair,CSE,6,8.74,Bangalore
+1KS21IS041,Rahul Bhat,ISE,6,8.66,Bangalore
+1KS21EC010,Meera Iyer,ECE,6,8.41,Bangalore
+1KS21CV032,Nisha Hegde,CIVIL,6,8.19,Karwar
+1KS21CS004,Ananya Rao,CSE,6,8.03,Bangalore
+1KS21ME022,Sneha Pillai,MECH,6,7.88,Bangalore
+1KS21CS003,Rohan Gupta,CSE,6,7.65,Hubli
+1KS21IS043,Sahil Kamath,ISE,6,7.44,Mysore
+1KS21EC011,Vivaan Shetty,ECE,6,7.22,Udupi
+1KS21CV031,Arjun Menon,CIVIL,6,7.10,Tumkur
+1KS21CS005,Karthik Reddy,CSE,6,6.98,Mangalore
+1KS21ME021,Aditya Joshi,MECH,6,6.55,Davangere
+
+$ hdfs dfs -cat /user/almaaaann/student_info/students.csv | awk -F, 'NR==1 || $3=="CSE"'      # filter: CSE branch only
+2026-10-12 08:25:58,859 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+usn,name,branch,semester,cgpa,city
+1KS21CS001,Aarav Nair,CSE,6,8.74,Bangalore
+1KS21CS002,Diya Sharma,CSE,6,9.12,Mysore
+1KS21CS003,Rohan Gupta,CSE,6,7.65,Hubli
+1KS21CS004,Ananya Rao,CSE,6,8.03,Bangalore
+1KS21CS005,Karthik Reddy,CSE,6,6.98,Mangalore
+
+$ hdfs dfs -cat /user/almaaaann/student_info/students.csv | awk -F, 'NR==1 || $5+0 >= 8.5'      # filter: CGPA >= 8.5
+2026-10-12 08:25:59,507 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+usn,name,branch,semester,cgpa,city
+1KS21CS001,Aarav Nair,CSE,6,8.74,Bangalore
+1KS21CS002,Diya Sharma,CSE,6,9.12,Mysore
+1KS21EC012,Isha Kulkarni,ECE,6,9.35,Belgaum
+1KS21IS041,Rahul Bhat,ISE,6,8.66,Bangalore
+1KS21IS042,Pooja Naik,ISE,6,9.01,Shimoga
+
+==> 5. Download the file
+$ hdfs dfs -get /user/almaaaann/student_info/students.csv downloaded/students.csv
+2026-10-12 08:26:00,147 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+
+$ ls -l downloaded/students.csv
+-rw-r--r--@ 1 almaaaann  staff  681 12 Oct 08:26 downloaded/students.csv
+
+$ diff students.csv downloaded/students.csv && echo 'downloaded copy is identical to the original'
+downloaded copy is identical to the original
+
+==> 6. Delete the file and directory
+$ hdfs dfs -rm -skipTrash /user/almaaaann/student_info/students.csv
+2026-10-12 08:26:00,818 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Deleted /user/almaaaann/student_info/students.csv
+
+$ hdfs dfs -ls /user/almaaaann/student_info
+2026-10-12 08:26:01,429 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+
+$ hdfs dfs -rm -r -skipTrash /user/almaaaann/student_info
+2026-10-12 08:26:02,010 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Deleted /user/almaaaann/student_info
+
+$ hdfs dfs -ls /user/almaaaann/student_info || true
+2026-10-12 08:26:02,614 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+ls: `/user/almaaaann/student_info': No such file or directory
+

@@ -105,7 +105,25 @@ def render_script(prefix: str, log: str, merge_empty: bool = True) -> None:
         pending = []
 
 
+def render_tasks() -> None:
+    """lab-tasks.sh echoes each command itself, so a task image is just its step block."""
+    steps = []
+    for line in read_log("12-lab-tasks"):
+        if line.startswith("==> "):
+            steps.append((line[4:], []))
+        else:
+            steps[-1][1].append(line)
+    for title, out in steps:
+        while out and not out[-1].strip():
+            out.pop()
+        n = title.split(".")[0]
+        render(f"task{n}-{re.sub(r'[^a-z]+', '-', title.split('. ', 1)[1].lower()).strip('-')}",
+               f"Task {title}", [f"==> Task {title}"] + out)
+
+
 def main() -> None:
+    if sys.argv[1:] == ["tasks"]:
+        return render_tasks()
     render("01-start-daemons", "Start HDFS daemons",
            read_log("00-jps-before") + read_log("01-daemons-start") + read_log("02-daemons-status"))
     render("02-safemode-wait", "Wait for NameNode to leave safe mode", read_log("02b-safemode-wait"))

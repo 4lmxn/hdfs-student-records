@@ -12,6 +12,7 @@ Load a student record list into HDFS and query it. **Set up and verified working
 | `mapreduce-avg-cgpa.sh` | run the streaming job, output to `/user/<you>/students/avg_cgpa_out` |
 | `mapper_topper.py` / `reducer_topper.py` | Hadoop Streaming: highest-CGPA student per branch |
 | `mapreduce-topper.sh` | run that job, output to `/user/<you>/students/topper_out` |
+| `lab-tasks.sh` | the six lab tasks: mkdir, put, ls/cat, sort/filter, get, rm |
 | `hdfs-admin.sh` | HDFS feature tour: `df`/`du`, `setrep`, `appendToFile`, `get`, `checksum`, snapshots, trash |
 
 ## What got installed / configured
@@ -57,6 +58,20 @@ hdfs namenode -format -force
 
 `ERROR: Cannot set priority of ... process` on start is cosmetic (renice permission on
 macOS) — the daemons still come up. Confirm with `./hadoop-daemons.sh status`.
+
+## Lab tasks — one screenshot each
+
+Run with `./lab-tasks.sh` (works in its own `/user/<you>/student_info` directory, so the
+delete step leaves the main `students` data alone).
+
+| # | Task | Screenshot |
+|---|---|---|
+| 1 | Create a directory | ![](screenshots/task1-create-a-directory.png) |
+| 2 | Upload students info | ![](screenshots/task2-upload-students-info.png) |
+| 3 | List and display its contents | ![](screenshots/task3-list-and-display-its-contents.png) |
+| 4 | Perform basic sorting/filtering | ![](screenshots/task4-perform-basic-sorting-filtering.png) |
+| 5 | Download the file | ![](screenshots/task5-download-the-file.png) |
+| 6 | Delete the file and directory | ![](screenshots/task6-delete-the-file-and-directory.png) |
 
 ## Screenshots — every activity
 
